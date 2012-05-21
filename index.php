@@ -1,5 +1,5 @@
 <?php session_start();
-require_once "/var/www/class/vars.php";
+require_once "class/vars.php";
 
 if ($_POST['registerpressed']) {
     

@@ -8,8 +8,8 @@ $sql_pass = 'gravity-pass';
 $sql_db = 'gravity';
 
 //directory vars
-$php_dir = '/var/www/gravity';
-$html_dir = '/gravity';
+$php_dir = '';
+$html_dir = '';
 
 function getPHPDir() {
     $php_dir = '/var/www/gravity';
@@ -30,9 +30,9 @@ function getPage() {
     return $page;
 }
 
-require_once "$php_dir/class/connection.php";
-require_once "$php_dir/class/dbq.php";
-require_once "$php_dir/class/inputfunctions.php";
-require_once "$php_dir/class/outputfunctions.php";
-require_once "$php_dir/class/displayfunctions.php";
+require_once "class/connection.php";
+require_once "class/dbq.php";
+require_once "class/inputfunctions.php";
+require_once "class/outputfunctions.php";
+require_once "class/displayfunctions.php";
 ?>
