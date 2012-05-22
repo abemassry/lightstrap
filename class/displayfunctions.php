@@ -1,30 +1,341 @@
 <?php
-function displayHTMLHead() {
-    $html_dir = getHTMLDir();
+
+function displayContent($page) {
+    if ($page == 'about') {
+        $page_content = displayAbout();
+    } elseif ($page == 'contact') {
+        $page_content = displayContact();
+    } elseif ($page == 'signup') {
+        $page_content = displaySignUp();
+    } elseif ($page == 'signin') {
+        $page_content = displaySignIn();
+    } elseif ($page == 'main_logged') {
+        $name = $_SESSION['user_logged'];
+        $page_content = displayMainLogged($name);
+    } 
+    
     $display = <<< EOF
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-    <title>Mass Industries</title>
-    <link rel='stylesheet' type='text/css' href='$html_dir/design/960_16_col.css' />
-    <link rel='stylesheet' type='text/css' href='$html_dir/design/style.css' />
-    <!--[if lt IE 9]>
-    <script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
-    <![endif]-->
-    <!--[if IE 7]>
-    <link rel='stylesheet' type='text/css' href='$html_dir/design/ie7.css' />
-    <![endif]-->
-    <script type="text/javascript" src="js/jquery-1.6.4.min.js"></script>
-    <script type="text/javascript" src="js/formee.js"></script>
-    <link rel="stylesheet" href="css/form-structure.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="css/form-style.css" type="text/css" media="screen" />
-    <link rel="shortcut icon" href="/design/favicon1.ico" />
-</head>
-<body>
-<div class="container_16">
+        <div class="container">
+        $page_content
+
+    <hr class="span12">
 EOF;
 return $display;
 }
+
+function displayMainLogged($user) {
+    $page = getLoggedPage();
+    $page_content = 'Some Content relevant to a logged in user';
+    $display = <<< EOF
+        $page_content
+    <div class="span12">&nbsp;</div>
+EOF;
+return $display;
+}
+
+function displayHTMLHead() {
+    $html_dir = getHTMLDir();
+    $display = <<< EOF
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>lightstrap</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="lightstrap">
+    <meta name="author" content="authorname">
+
+    <!-- Le styles -->
+    <link href="$html_dir/assets/css/bootstrap.css" rel="stylesheet">
+    <link href="$html_dir/assets/css/datepicker.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+    </style>
+    <link href="$html_dir/assets/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="$html_dir/assets/js/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="assets/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="$html_dir/assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="$html_dir/assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="$html_dir/assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="$html_dir/assets/ico/apple-touch-icon-57-precomposed.png">
+  </head>
+
+  <body>
+EOF;
+return $display;
+}
+
+function displayMasthead() {
+    $html_dir = getHTMLDir();
+    $page = getPage();
+    $active = 'class="active"';
+    if ($page == '') {
+        $home_active = $active;
+    } elseif ($page == 'about') {
+        $about_active = $active;
+    } elseif ($page == 'contact') {
+        $contact_active = $active;
+    }
+    if ($_SESSION['user_logged']) {
+        $logout = "<a href='$html_dir/?page=logout'>Logout</a>";
+    }
+    $display = <<< EOF
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/">lightstrap</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li $home_active><a href="$html_dir/">Home</a></li>
+              <li $about_active><a href="$html_dir/?page=about">About</a></li>
+              <li $contact_active><a href="$html_dir/?page=contact">Contact</a></li>
+            </ul>
+            <ul class="nav secondary-nav" style="float:right;">
+                <li>$logout</li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+EOF;
+return $display;
+}
+
+function displayMain() {
+    $signInContent = displaySignInContent();
+    $signUpContent = displaySignUpContent();
+    
+    // hero unit style  style="background-image:url('');background-repeat:no-repeat;"
+    $display = <<< EOF
+    <div class="container">
+
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="hero-unit">
+        <h1>lightstrap</h1>
+        <p>Uses Twitter Bootstrap as the frontend and the gravity-framework as the backend.</p>
+        <p><a class="btn btn-primary btn-large" data-toggle="modal" href="#myModal">Sign In &raquo;</a></p>
+      </div>
+      
+      <!-- Sign in modal -->
+      
+      <div class="modal hide fade" id="myModal" style="display: none; ">
+        <div class="modal-header">
+          <button class="close" data-dismiss="modal">×</button>
+          <h3>Sign In</h3>
+        </div>
+        <div class="modal-body">
+          $signInContent
+            &nbsp;&nbsp;&nbsp;Or
+            <br /><br />
+            <a class="btn" data-dismiss="modal" data-toggle="modal" href="#registerModal">Sign Up &raquo;</a>
+            </p>    
+        </p>
+        </div>
+        <div class="modal-footer">
+          <!--<a href="#" class="btn btn-primary">Save changes</a>-->
+        </div>
+      </div>
+      
+      
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="span4">
+          <h2>Contact Us</h2>
+            <p>
+                This will take you to the contact page.
+           </p>
+          <p><a class="btn" href="/?page=contact">Contact &raquo;</a></p>
+        </div>
+        <div class="span4">
+          <h2>About</h2>
+           <p>
+              This framework was made for the rapid development of webapps and the incorporation of 
+              twitter bootstrap helps accomplish this by including a visually appealing front end
+              framework as well.
+           </p>
+          <p><a class="btn" href="/?page=about">About &raquo;</a></p>
+       </div>
+        <div class="span4">
+          <h2>Sign Up</h2>
+          <p>
+            Signing up with twitter, facebook, openid, and native signup coming soon.
+          </p>
+          <p><a class="btn" data-toggle="modal" href="#registerModal">Sign Up &raquo;</a></p>
+        </div>
+        <div class="modal hide fade" id="registerModal" style="display: none; ">
+          <div class="modal-header">
+            <button class="close" data-dismiss="modal">×</button>
+            <h3>Sign Up</h3>
+          </div>
+          
+          <!-- Sign up modal -->
+          
+          <div class="modal-body">
+            $signUpContent
+            <p>
+            &nbsp;&nbsp;&nbsp;Or
+            <br /><br />
+            <a class="btn" data-dismiss="modal" data-toggle="modal" href="#myModal">Sign In &raquo;</a>
+            </p>
+            </p>
+          </div>
+          
+        </div>
+      </div>
+      <hr class="span12">
+EOF;
+return $display;
+}
+
+function displayFooter() {
+    $display = <<< EOF
+    
+    <footer class="span12">
+        <p>&copy; Author 2012</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="assets/js/jquery.js"></script>
+    <script src="assets/js/bootstrap-transition.js"></script>
+    <script src="assets/js/bootstrap-alert.js"></script>
+    <script src="assets/js/bootstrap-modal.js"></script>
+    <script src="assets/js/bootstrap-dropdown.js"></script>
+    <script src="assets/js/bootstrap-scrollspy.js"></script>
+    <script src="assets/js/bootstrap-tab.js"></script>
+    <script src="assets/js/bootstrap-tooltip.js"></script>
+    <script src="assets/js/bootstrap-popover.js"></script>
+    <script src="assets/js/bootstrap-button.js"></script>
+    <script src="assets/js/bootstrap-collapse.js"></script>
+    <script src="assets/js/bootstrap-carousel.js"></script>
+    <script src="assets/js/bootstrap-typeahead.js"></script>
+    <script src="assets/js/bootstrap-datepicker.js"></script>
+    <script>
+        $(function(){
+            $('#input07').datepicker({
+                format: 'mm-dd-yyyy'
+            });
+        });
+    </script>
+  </body>
+</html>
+EOF;
+return $display;
+}
+
+function displayAbout() {
+$display = <<< EOF
+    <h1>About</h1>
+    <p>
+        This framework was made for the rapid development of webapps and the incorporation of 
+        twitter bootstrap helps accomplish this by including a visually appealing front end
+        framework as well.
+    </p>
+EOF;
+return $display;
+}
+
+function displayContact() {
+$display = <<< EOF
+    <h1>Contact</h1>
+    <p>
+        Contact Form
+    </p>
+EOF;
+return $display;
+}
+
+function displaySignInContent() {
+    //this function displays the general sign in content that can either go in
+    //a modal window or in a separate page
+$display = <<< EOF
+    <p>
+        <form class="well" name="form-signin" method="POST" action="/?page=signin">
+        <label>Username</label>
+        <input type="text" class="span3" placeholder="Username" name="username">
+        <label>Password</label>
+        <input type="password" class="span3" placeholder="Password" name="password">
+        <input type="hidden" name="login-pressed" value="1">
+        <br />
+        <button type="submit" class="btn btn-success">Sign In</button>
+        </form>
+        <p>
+EOF;
+return $display;
+}
+
+function displaySignIn() {
+    //this function displays the sign in content in its own page
+    $signInContent = displaySignInContent();
+$display = <<< EOF
+    <h1>Sign In</h1>
+    $signInContent
+    &nbsp;&nbsp;&nbsp;Or
+        <br /><br />
+        <a class="btn" href="/?page=signup">Sign Up &raquo;</a>
+        </p>
+            
+    </p>
+EOF;
+return $display;
+}
+
+function displaySignUpContent() {
+    //this function displays the general sign up content that can either go in
+    //a modal window or in a separate page
+$display = <<< EOF
+    <p>
+        <form class="well" name="form-signup" method="POST" action="/?page=signup">
+            <label>Email</label>
+            <input type="text" class="span3" placeholder="example@example.com" name="email">
+            <label>Password</label> 
+            <input type="password" class="span3" placeholder="Password" name="password">
+            <label>Retype Password</label>
+            <input type="password" class="span3" placeholder="Retype Password" name="retyped-password">
+            <input type="hidden" name="register-pressed" value="1">
+            <br />
+            <button type="submit" class="btn btn-success">Sign Up</button>
+        </form>
+        
+EOF;
+return $display;
+}
+
+function displaySignUp() {
+    //this function displays the sign up content in its own page
+    $signUpContent = displaySignUpContent();
+$display = <<< EOF
+    <h1>Sign Up</h1>
+    $signUpContent
+    <p>
+            &nbsp;&nbsp;&nbsp;Or
+            <br /><br />
+            <a class="btn" href="/?page=signin">Sign In &raquo;</a>
+        </p>
+    </p>
+EOF;
+return $display;
+}
+
+
+
 
 function displaySearch() {
 $display = <<< EOF

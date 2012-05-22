@@ -34,6 +34,19 @@ function getPage() {
     return $page;
 }
 
+function getLoggedPage() {
+    if ($_SESSION['user_logged']) {
+        if ($_GET['loggedpage']) {
+            $loggedpage = mysql_real_escape_string(stripslashes($_GET['loggedpage']));
+        } else {
+            $loggedpage = '';
+        }
+        return $loggedpage;
+    } else {
+        return '';
+    }
+}
+
 require_once "class/connection.php";
 require_once "class/dbq.php";
 require_once "class/inputfunctions.php";
