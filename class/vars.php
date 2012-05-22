@@ -3,7 +3,7 @@
 //commented while working on this code, will replace when project is further 
 //along
 //replaced with this line
-require_once '../../vars.php';
+require_once 'vars2.php';
 
 //SQL vars
 //$sql_host = 'localhost';
