@@ -47,9 +47,9 @@ function getLoggedPage() {
     }
 }
 
-require_once "class/connection.php";
-require_once "class/dbq.php";
-require_once "class/inputfunctions.php";
-require_once "class/outputfunctions.php";
-require_once "class/displayfunctions.php";
+require_once "connection.php";
+require_once "dbq.php";
+require_once "inputfunctions.php";
+require_once "outputfunctions.php";
+require_once "displayfunctions.php";
 ?>
