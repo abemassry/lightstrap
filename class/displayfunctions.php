@@ -311,7 +311,7 @@ $display = <<< EOF
             <input type="password" class="span3" placeholder="Retype Password" name="retyped-password">
             <input type="hidden" name="register-pressed" value="1">
             <label class="checkbox">
-                <input type="checkbox" name="agree">I Agree to the Terms of Use and Privacy Policy
+                <input type="checkbox" name="agree" value="yes">I Agree to the Terms of Use and Privacy Policy
             </label>
             <br />
             <button type="submit" class="btn btn-success">Sign Up</button>
