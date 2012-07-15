@@ -1,7 +1,6 @@
 <?php
 
 define('SQL_HOST',$sql_host);
-//fvote.db.6279086.hostedresource.com
 define('SQL_USER',$sql_user);
 define('SQL_PASS',$sql_pass);
 define('SQL_DB',$sql_db);
