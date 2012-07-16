@@ -110,6 +110,7 @@ function register1($name, $passwd1, $rpasswd1, $agree) {
                $result=mysql_query($sql)
                    or die(mysql_error());
                $success = 2;
+               $_SESSION['user_logged'] = $name;
             } else {
                $success = 'There is a space in your username';
             }

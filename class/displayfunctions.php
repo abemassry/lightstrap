@@ -269,7 +269,7 @@ $display = <<< EOF
     <p>
         <form class="well" name="form-signin" method="POST" action="/?page=signin">
         <label>email</label>
-        <input type="text" class="span3" placeholder="Username" name="username">
+        <input type="text" class="span3" placeholder="example@example.com" name="username">
         <label>Password</label>
         <input type="password" class="span3" placeholder="Password" name="password">
         <input type="hidden" name="login-pressed" value="1">

@@ -5,7 +5,6 @@ if ($_POST['register-pressed']) {
     $email = mysql_real_escape_string(trim(stripslashes($_POST['email'])));
     $password = mysql_real_escape_string(stripslashes($_POST['password']));
     $rpasswd1 = mysql_real_escape_string(stripslashes($_POST['retyped-password']));
-    $agree = mysql_real_escape_string(stripslashes($_POST['agree']));
     $success = register1($email, $password, $rpasswd1, $agree);
     if ($success == 2) {
         $alt_page = 'main_logged';
