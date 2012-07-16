@@ -317,7 +317,7 @@ function fbLogin($cookie) {
 
 function checkLogin($name, $passwd1) {
     $slt1 = 'enter your salt here';
-    $hash1 = hash(sha512, sha512, $slt1.$passwd1);
+    $hash1 = hash(sha512, $slt1.$passwd1);
     for ($i = 0; $i < 10; $i++) {
         $hash1 = hash(sha512, $hash1);
     }
@@ -330,6 +330,7 @@ function checkLogin($name, $passwd1) {
         //    setcookie("cookpass", $hash, time()+60*60*24*60, "/");
         //}
         $success1 = 2;
+        $_SESSION['user_logged'] = $name;
     } else {
         $success1 = 'Wrong username or password';
     }
