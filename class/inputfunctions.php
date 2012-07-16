@@ -315,13 +315,13 @@ function fbLogin($cookie) {
    }
 }
 
-function checkLogin($name, $password) {
+function checkLogin($name, $passwd1) {
     $slt1 = 'enter your salt here';
     $hash1 = hash(sha512, sha512, $slt1.$passwd1);
     for ($i = 0; $i < 10; $i++) {
         $hash1 = hash(sha512, $hash1);
     }
-    $sql="SELECT * FROM gravity_users WHERE name='$name' and passwd1='$hash1'";
+    $sql="SELECT * FROM gravity_users WHERE name='$name' and passwd='$hash1'";
     $result=mysql_query($sql);
     $count=mysql_num_rows($result);
     if($count==1){
