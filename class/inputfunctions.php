@@ -106,7 +106,7 @@ function register1($name, $passwd1, $rpasswd1, $agree) {
             $success = 'Please Agree to the Terms of Use and Privacy Policy to continue';
          } else {
             if(!strstr($name,' ')) {
-               $sql="INSERT INTO gravity_users (user_id, name, passwd1) VALUES (NULL, '$name', '$hash1')";
+               $sql="INSERT INTO gravity_users (user_id, name, passwd) VALUES (NULL, '$name', '$hash1')";
                $result=mysql_query($sql)
                    or die(mysql_error());
                $success = 2;
